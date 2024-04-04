@@ -10,6 +10,40 @@ namespace PROGPOE
         private static ArrayList ingredientsList = new ArrayList();
         private static ArrayList stepsList = new ArrayList();
 
+        static void Application()
+        {
+            Console.WriteLine("" +
+                "1. Input recipie " +
+                "\n2. View recipie " +
+                "\n3. Scale quantities " +
+                "\n4. Reset quantities " +
+                "\n5. Clear all data " +
+                "\n6. Exit");
+
+            Console.Write("Enter your choice: ");
+            string choise = Console.ReadLine();
+            int choiseInt;
+
+            while (!int.TryParse(choise, out choiseInt) || choiseInt > 6 || choiseInt < 1)
+            {
+                Console.Write("Enter a valid number between 1 and 6");
+                choise = Console.ReadLine();
+            }
+
+            switch (choiseInt)
+            {
+                case 1:
+                    Ingredients();
+                    break;
+                case 2:
+                    ViewRecipie();
+                    break;
+                case 6: 
+                    Exit(); 
+                    break;
+            }
+        }
+
         static void Ingredients()
         {
             Console.Write("Enter the number of ingredients: ");
@@ -45,7 +79,10 @@ namespace PROGPOE
                 Console.Write($"Enter the description for ingredient {i + 1}: ");
                 string description = Console.ReadLine();
 
-                ingredientsList.Add($"{nameOfIngredient} {quantityOfIngredient} {measurement} {description}");
+                ingredientsList.Add($"Name: {nameOfIngredient} " +
+                    $"quantity: {quantityOfIngredient} " +
+                    $"measurment: {measurement} " +
+                    $"description: {description}");
             }
 
             InputSteps();
@@ -64,17 +101,20 @@ namespace PROGPOE
 
             for (int i = 0; i < numberOfSteps; i++)
             {
-                Console.WriteLine($"Enter the description for step {i + 1}: ");
+                Console.Write($"Enter the description for step {i + 1}: ");
+                
                 string stepDescription = Console.ReadLine();
-                stepsList.Add(stepDescription);
+                string step = $"Step {i + 1}: ";
+                step += stepDescription;
+
+                stepsList.Add(step);
             }
+
+            Application();
         }
 
-        static void Main(string[] args)
+        static void ViewRecipie()
         {
-            Ingredients();
-
-            // Example: Printing out the ingredients and their quantities
             Console.WriteLine("\nIngredients List:");
             foreach (var ingredient in ingredientsList)
             {
@@ -87,6 +127,18 @@ namespace PROGPOE
             {
                 Console.WriteLine(step);
             }
+
+            Application();
+        }
+
+        static void Exit()
+        {
+            Environment.Exit(0);
+        } 
+        static void Main(string[] args)
+        {
+            Application();     
+                       
         }
     }
 }
