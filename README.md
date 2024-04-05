@@ -27,5 +27,4 @@ This command line program allows users to manage recipes by inputting ingredient
 
  ```dotnet run```  
 
- # Sample screen shots
  
