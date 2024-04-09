@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Collections;
 
 namespace PROGPOE
 {
     public class Program
     {
+        private const int MaxIngredients = 10;
+        private const int MaxSteps = 10;
 
-        private static ArrayList ingredientsList = new ArrayList();
-        private static ArrayList stepsList = new ArrayList();
-        private static ArrayList originalIngredientsList = new ArrayList();
-        private static ArrayList scaledIngredientsList = new ArrayList();
-
+        private static string[] ingredientsList = new string[MaxIngredients];
+        private static string[] originalIngredientsList = new string[MaxIngredients];
+        private static string[] scaledIngredientsList = new string[MaxIngredients];
+        private static string[] stepsList = new string[MaxSteps];
+       
         //Main running method that controlls all of the applications functions
         static void Application()
         {
@@ -25,7 +26,8 @@ namespace PROGPOE
             Console.Write("Enter your choice: ");
             string choice = Console.ReadLine();
             int choiceInt;
-            //Check for a valid integer
+
+            //Check if the integer is valid 
             while (!int.TryParse(choice, out choiceInt) || choiceInt > 6 || choiceInt < 1)
             {
                 Console.Write("Enter a valid number between 1 and 6: ");
@@ -57,29 +59,30 @@ namespace PROGPOE
 
         static void Ingredients()
         {
-            //Clear the ingredients list to store new values
-            originalIngredientsList.Clear(); 
-            scaledIngredientsList.Clear();
+            Array.Clear(ingredientsList, 0, ingredientsList.Length);
+            Array.Clear(originalIngredientsList, 0, originalIngredientsList.Length);
+            Array.Clear(scaledIngredientsList, 0, scaledIngredientsList.Length);
+            Array.Clear(stepsList, 0, stepsList.Length);
 
-            //Cheack if list has ingredients
-            if (ingredientsList.Count == 0)
+            if (ingredientsList[0] == null)
             {
                 Console.WriteLine();
                 Console.Write("Enter the number of ingredients: ");
                 string input = Console.ReadLine();
                 int numberOfIngredients;
-                //Check for a valid integer
-                while (!int.TryParse(input, out numberOfIngredients))
+
+                //Check if the integer is valid 
+                while (!int.TryParse(input, out numberOfIngredients) || numberOfIngredients > MaxIngredients || numberOfIngredients < 1)
                 {
-                    Console.Write("Invalid input. Please enter a valid number: ");
+                    Console.Write($"Enter a valid number between 1 and {MaxIngredients}: ");
                     input = Console.ReadLine();
                 }
 
-                ingredientsList.Clear(); // Clear the existing ingredients list before adding new ingredients
                 InputIngredientDetails(numberOfIngredients);
             }
             else
             {
+                //If list not empty prompt user to clear it
                 Console.WriteLine();
                 Console.WriteLine("The ingredient is not empty, clear it to enter another recipe");
                 Application();
@@ -96,7 +99,6 @@ namespace PROGPOE
                 Console.Write($"Enter the quantity of ingredient {i + 1}: ");
                 string quantityInput = Console.ReadLine();
                 int quantityOfIngredient;
-                //Check for a valid integer
                 while (!int.TryParse(quantityInput, out quantityOfIngredient))
                 {
                     Console.Write($"Please enter a valid number for ingredient {i + 1}: ");
@@ -114,8 +116,8 @@ namespace PROGPOE
                                     $"measurement: {measurement}\n" +
                                     $"description: {description}\n";
 
-                ingredientsList.Add(ingredient);
-                originalIngredientsList.Add(ingredient); // Store original ingredient
+                ingredientsList[i] = ingredient;
+                originalIngredientsList[i] = ingredient;
             }
 
             InputSteps();
@@ -126,22 +128,21 @@ namespace PROGPOE
             Console.Write("Please enter the number of steps needed to make the recipe: ");
             string steps = Console.ReadLine();
             int numberOfSteps;
-            //Check for a valid integer
-            while (!int.TryParse(steps, out numberOfSteps))
+
+            //Check if the integer is valid 
+            while (!int.TryParse(steps, out numberOfSteps) || numberOfSteps > MaxSteps || numberOfSteps < 1)
             {
-                Console.WriteLine("Enter a valid number of steps: ");
+                Console.WriteLine($"Enter a valid number between 1 and {MaxSteps}: ");
                 steps = Console.ReadLine();
             }
-            //Enter a description for each step 
+
             for (int i = 0; i < numberOfSteps; i++)
             {
                 Console.Write($"Enter the description for step {i + 1}: ");
-
                 string stepDescription = Console.ReadLine();
-                string step = $"Step {i + 1}: ";
-                step += stepDescription;
-                stepsList.Add(step);
+                stepsList[i] = $"Step {i + 1}: {stepDescription}";
             }
+
             Console.WriteLine();
             Application();
         }
@@ -151,13 +152,15 @@ namespace PROGPOE
             Console.WriteLine("\nIngredients List:");
             foreach (var ingredient in ingredientsList)
             {
-                Console.WriteLine(ingredient);
+                if (ingredient != null)
+                    Console.WriteLine(ingredient);
             }
 
             Console.WriteLine("\nSteps:");
             foreach (var step in stepsList)
             {
-                Console.WriteLine(step);
+                if (step != null)
+                    Console.WriteLine(step);
             }
             Console.WriteLine();
             Application();
@@ -166,8 +169,8 @@ namespace PROGPOE
         static void Clear()
         {
             Console.WriteLine();
-            ingredientsList.Clear();
-            stepsList.Clear();
+            Array.Clear(ingredientsList, 0, ingredientsList.Length);
+            Array.Clear(stepsList, 0, stepsList.Length);
             Application();
         }
 
@@ -182,67 +185,56 @@ namespace PROGPOE
             Console.Write("Enter the scaling factor: ");
             string factorInput = Console.ReadLine();
             int factor;
-            //Check for a valid integer
+
+            //Check if the integer is valid
             while (!int.TryParse(factorInput, out factor) || factor <= 0)
             {
                 Console.Write("Invalid input. Please enter a positive integer: ");
                 factorInput = Console.ReadLine();
             }
 
-            scaledIngredientsList.Clear(); // Clear scaled ingredients list
+            Array.Clear(scaledIngredientsList, 0, scaledIngredientsList.Length);
 
-            // Store scaled quantities
-            foreach (var originalIngredient in originalIngredientsList)
+            for (int i = 0; i < ingredientsList.Length; i++)
             {
-                //This line will get all four fields 
-                string[] parts = ((string)originalIngredient).Split('\n');
-                foreach (var part in parts)
+                if (ingredientsList[i] != null)
                 {
-                    //We then take those four fields and only take quantities
-                    if (part.Contains("quantity"))
+                    string[] parts = ingredientsList[i].Split('\n');
+                    foreach (var part in parts)
                     {
-                        //We then remove the : from the list to get " quantity"
-                        string[] quantityParts = part.Split(':');
-                        //We then check if it can be placed as a valid int and remove the space 
-                        if (int.TryParse(quantityParts[1].Trim(), out int quantity))
+                        if (part.Contains("quantity"))
                         {
-                            quantity *= factor;
-                            scaledIngredientsList.Add($"Name: {parts[0]}\nquantity: {quantity}\n{parts[2]}\n{parts[3]}");
+                            string[] quantityParts = part.Split(':');
+                            if (int.TryParse(quantityParts[1].Trim(), out int quantity))
+                            {
+                                quantity *= factor;
+                                scaledIngredientsList[i] = $"{parts[0]}\nquantity: {quantity}\n{parts[2]}\n{parts[3]}\n";
+                            }
                         }
                     }
                 }
             }
 
-            // Update ingredientsList with scaled quantities
-            ingredientsList.Clear();
-            foreach (var scaledIngredient in scaledIngredientsList)
-            {
-                ingredientsList.Add(scaledIngredient);
-            }
+            Array.Copy(scaledIngredientsList, ingredientsList, scaledIngredientsList.Length);
             Console.WriteLine();
             Console.WriteLine("Quantities scaled successfully.");
             Console.WriteLine();
-
             Application();
         }
 
         static void ResetQuantities()
         {
-            // Clear ingredientsList before adding original quantities
-            ingredientsList.Clear();
+            Array.Clear(ingredientsList, 0, ingredientsList.Length);
 
-            // Add original quantities to ingredientsList
-            foreach (var originalIngredient in originalIngredientsList)
+            for (int i = 0; i < originalIngredientsList.Length; i++)
             {
-                ingredientsList.Add(originalIngredient);
+                ingredientsList[i] = originalIngredientsList[i];
             }
-            Console.WriteLine();
 
+            Console.WriteLine();
             Console.WriteLine("Quantities reset successfully.");
-            Application();
-
             Console.WriteLine();
-
+            Application();
         }
 
         static void Main(string[] args)
