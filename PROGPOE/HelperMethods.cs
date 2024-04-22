@@ -4,7 +4,7 @@ namespace PROGPOE
 {
     public class HelperMethods
     {
-        public static void ViewRecipe(string[] ingredientsList, string[] stepsList, string[] original)
+        public static void ViewRecipe(List<string> ingredientsList, List<string> stepsList, List<string> original)
         {
             Console.WriteLine("\nIngredients List:");
             foreach (var ingredient in ingredientsList)
@@ -25,11 +25,20 @@ namespace PROGPOE
         }
 
         
-        public static void Clear(string[]ingredientsList, string[] stepsList)
-        {
+        public static void Clear(List<string> ingredientsList, List<string> stepsList)  {
             Console.WriteLine();
-            Array.Clear(ingredientsList, 0, ingredientsList.Length);
-            Array.Clear(stepsList, 0, stepsList.Length);
+            //Array.Clear(ingredientsList, 0, ingredientsList.Length);
+
+            //new
+            ingredientsList.Clear();
+            
+            //Array.Clear(stepsList, 0, stepsList.Length);
+            
+            //new
+            stepsList.Clear();
+            Console.WriteLine("Recipe removed.");
+            Console.WriteLine();
+
             Application.DisplayMenu();
         }
 

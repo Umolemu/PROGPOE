@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PROGPOE
 {
@@ -8,11 +9,18 @@ namespace PROGPOE
         private static int MaxIngredients = 10;
         private static int MaxSteps = 10;
 
-        private static string[] ingredientsList = new string[MaxIngredients];
-        private static string[] originalIngredientsList = new string[MaxIngredients];
-        private static string[] scaledIngredientsList = new string[MaxIngredients];
-        private static string[] stepsList = new string[MaxSteps];
+        //private static string[] ingredientsList = new string[MaxIngredients];
+        //private static string[] originalIngredientsList = new string[MaxIngredients];
+        //private static string[] scaledIngredientsList = new string[MaxIngredients];
+        //private static string[] stepsList = new string[MaxSteps];
        
+        //New code  
+        private static List<string> ingredientsList = new List<string>();
+        private static List<string> originalIngredientsList = new List<string>();
+        private static List<string> scaledIngredientsList = new List<string>();
+        private static List<string> stepsList = new List<string>();
+
+
         //Main running method that controlls all of the applications functions
         public static void DisplayMenu()
         {

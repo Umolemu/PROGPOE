@@ -1,17 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PROGPOE
 {
     //Class that allows the user to change to quantities 
     public class EditQuantities
     {
-        public static void ResetQuantities(string[] ingredientsList, string[] originalIngredientsList)
+        public static void ResetQuantities(List<string> ingredientsList, List<string> originalIngredientsList)
         {
-            Array.Clear(ingredientsList, 0, ingredientsList.Length);
+            //Array.Clear(ingredientsList, 0, ingredientsList.Length);
 
-            for (int i = 0; i < originalIngredientsList.Length; i++)
+            //new
+            ingredientsList.Clear();
+
+
+            //for (int i = 0; i < originalIngredientsList.Count; i++)
+            //{
+            //    ingredientsList[i] = originalIngredientsList[i];
+            //}
+
+            foreach(string ing in originalIngredientsList)
             {
-                ingredientsList[i] = originalIngredientsList[i];
+                ingredientsList.Add(ing);
             }
             
             Application.SetChangedQuantity(false);
@@ -21,11 +31,11 @@ namespace PROGPOE
             Application.DisplayMenu();
         }
 
-        public static void ScaleQuantities(string[] ingredientsList, string[] scaledIngredientsList)
+        public static void ScaleQuantities(List<string> ingredientsList, List<string> scaledIngredientsList)
         {
 
             Console.WriteLine();
-            if (ingredientsList[0] == null)
+            if (ingredientsList.Count == 0)
             {
                 Console.WriteLine("Cannot change recipe without creating one, first create a recipie.");
                 Console.WriteLine();
@@ -51,11 +61,14 @@ namespace PROGPOE
                 factorInput = Console.ReadLine();
             }
 
-            Array.Clear(scaledIngredientsList, 0, scaledIngredientsList.Length);
+            //Array.Clear(scaledIngredientsList, 0, scaledIngredientsList.Length);
 
-            for (int i = 0; i < ingredientsList.Length; i++)
+            //new
+            scaledIngredientsList.Clear();
+
+            for (int i = 0; i < ingredientsList.Count; i++)
             {
-                if (ingredientsList[i] != null)
+                if (ingredientsList.Count != 0)
                 {
                     string[] parts = ingredientsList[i].Split('\n');
                     foreach (var part in parts)
@@ -66,14 +79,19 @@ namespace PROGPOE
                             if (int.TryParse(quantityParts[1].Trim(), out int quantity))
                             {
                                 quantity *= factor;
-                                scaledIngredientsList[i] = $"{parts[0]}\nquantity: {quantity}\n{parts[2]}\n{parts[3]}\n";
+                                scaledIngredientsList.Add($"{parts[0]}\nquantity: {quantity}\n{parts[2]}\n{parts[3]}\n");
                             }
                         }
                     }
                 }
             }
 
-            Array.Copy(scaledIngredientsList, ingredientsList, scaledIngredientsList.Length);
+            //Array.Copy(scaledIngredientsList, ingredientsList, scaledIngredientsList.Length);
+
+            //new
+            ingredientsList.Clear ();
+            ingredientsList.AddRange(scaledIngredientsList);
+
             Application.SetChangedQuantity(true);
             Console.WriteLine();
             Console.WriteLine("Quantities scaled successfully.");
