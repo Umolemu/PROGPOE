@@ -8,17 +8,8 @@ namespace PROGPOE
         private static bool HasScaledIngredients = false;
         private static int MaxIngredients = 10;
         private static int MaxSteps = 10;
-
-        //private static string[] ingredientsList = new string[MaxIngredients];
-        //private static string[] originalIngredientsList = new string[MaxIngredients];
-        //private static string[] scaledIngredientsList = new string[MaxIngredients];
-        //private static string[] stepsList = new string[MaxSteps];
-       
-        //New code  
-        private static List<string> ingredientsList = new List<string>();
-        private static List<string> originalIngredientsList = new List<string>();
-        private static List<string> scaledIngredientsList = new List<string>();
-        private static List<string> stepsList = new List<string>();
+        
+        public static List<Recipe> recipes = new List<Recipe>();
 
 
         //Main running method that controlls all of the applications functions
@@ -30,7 +21,8 @@ namespace PROGPOE
                 "\n3. Scale quantities " +
                 "\n4. Reset quantities " +
                 "\n5. Clear all data " +
-                "\n6. Exit");
+                "\n6. Select recipe " +
+                "\n7. Exit");
 
             Console.Write("Enter your choice: ");
             string choice = Console.ReadLine();
@@ -47,32 +39,62 @@ namespace PROGPOE
             {
                 case 1:
                     //Allows the user to enter ingredients
-                    InputItems.Ingredients(ingredientsList, originalIngredientsList, scaledIngredientsList, stepsList);
+                    InputItems.Ingredients(recipes);
                     break;
                 case 2:
                     //Displays the recipe to to console 
-                    HelperMethods.ViewRecipe(ingredientsList, stepsList,originalIngredientsList);
+                    //HelperMethods.ViewRecipe(recipes);
+                    foreach (Recipe recipe in recipes)
+                    {
+                        Console.WriteLine("\nRecipe Name: " + recipe.GetName());
+
+                        Console.WriteLine("Ingredients List:");
+                        List<Ingredient> ingredients = recipe.GetIngredients();
+                        if (ingredients.Count == 0)
+                        {
+                            Console.WriteLine("No ingredients added.");
+                        }
+                        else
+                        {
+                            foreach (Ingredient ingredient in ingredients)
+                            {
+                                Console.WriteLine($"- {ingredient.Name}: \n{ingredient.Quantity} \n{ingredient.Measurement} - \n{ingredient.Description}\n");
+                            }
+                        }
+
+                        Console.WriteLine("\nSteps:");
+                        foreach (var step in recipe.GetSteps())
+                        {
+                            Console.WriteLine(step);
+                        }
+
+                        Console.WriteLine();
+                    }
                     break;
                 case 3:
                     //Allows use to sacle quantities by their own factor 
-                    EditQuantities.ScaleQuantities(ingredientsList, scaledIngredientsList);
+                    EditQuantities.ScaleQuantities(recipes);
                     break;
                 case 4:
                     //Resets the quantities to the original value only if they have been edited
-                    EditQuantities.ResetQuantities(ingredientsList, originalIngredientsList);
+                    EditQuantities.ResetQuantities(recipes);
                     break;
                 case 5:
                     //Clears the ingredients list
-                    HelperMethods.Clear(ingredientsList, stepsList);
+                    HelperMethods.Clear(recipes);
                     break;
                 case 6:
+                    //Allows user to change the current recipe 
+                    HelperMethods.SelectRecipe(recipes);
+                    break;
+                case 7:
                     //Stops the application
                     HelperMethods.Exit();
                     break;
             }
         }
 
-        public static int GetSteps ()
+        public static int GetSteps()
         {
             return MaxSteps;
         }
@@ -90,6 +112,6 @@ namespace PROGPOE
         {
             HasScaledIngredients = change;
         }
-
+                        
     }
 }

@@ -4,85 +4,91 @@ namespace PROGPOE
 {
     public class InputItems
     {
-        public static void Ingredients(List<string> ingredientsList, List<string> originalIngredientsList, List<string> scaledIngredientsList, List<string> stepsList)
+        public static void Ingredients(List<Recipe> recipies)
         {
-           
-                     
-            if (ingredientsList.Count == 0)
+
+            Console.WriteLine();
+            Console.Write("Enter the name of the Recipe: ");
+            string name = Console.ReadLine();
+
+            while (!HelperMethods.ValidString(name))
             {
-                Application.SetChangedQuantity(false);
-
-                //Array.Clear(originalIngredientsList, 0, originalIngredientsList.Length);
-
-                //new
-                originalIngredientsList.Clear();
-
-                //Array.Clear(scaledIngredientsList, 0, scaledIngredientsList.Length);
-
-                //new
-                scaledIngredientsList.Clear(); 
-
-                Console.WriteLine();
-                Console.Write("Enter the number of ingredients: ");
-                string input = Console.ReadLine();
-                int numberOfIngredients;
-
-                //Check if the integer is valid 
-                while (!int.TryParse(input, out numberOfIngredients) || numberOfIngredients > Application.GetIngredients() || numberOfIngredients < 1)
-                {
-                    Console.Write($"Enter a valid number between 1 and {Application.GetIngredients()}: ");
-                    input = Console.ReadLine();
-                }
-
-                InputIngredientDetails(numberOfIngredients, ingredientsList, originalIngredientsList, stepsList);
+                    Console.Write($"Enter a valid name for the Recipe: ");
+                    name = Console.ReadLine();
             }
-            else
-            {
-                //If list not empty prompt user to clear it
-                Console.WriteLine();
-                Console.WriteLine("The ingredient is not empty, clear it to enter another recipe");
-                Console.WriteLine();
 
-                Application.DisplayMenu();
-            }
+            Recipe newRecipe = new Recipe(name);
+
+            Console.Write("Enter the number of ingredients: ");
+            string input = Console.ReadLine();
+            int numberOfIngredients;
+
+            //Check if the integer is valid 
+             while (!int.TryParse(input, out numberOfIngredients) || numberOfIngredients > Application.GetIngredients() || numberOfIngredients < 1)
+             {
+                Console.Write($"Enter a valid number between 1 and {Application.GetIngredients()}: ");
+                input = Console.ReadLine();
+             }
+
+            InputIngredientDetails(numberOfIngredients, newRecipe);
+
+            recipies.Add(newRecipe);
+
+            Console.WriteLine("Recipe added successfully.");
+            Console.WriteLine();
+            //Application.DisplayMenu();
+
         }
 
-        static void InputIngredientDetails(int numberOfIngredients, List<string> ingredientsList, List<string> originalIngredientsList, List<string> stepsList)
+        static void InputIngredientDetails(int numberOfIngredients, Recipe recipe)
         {
             for (int i = 0; i < numberOfIngredients; i++)
             {
                 Console.Write($"Enter the name of ingredient {i + 1}: ");
                 string nameOfIngredient = Console.ReadLine();
 
+                while (!HelperMethods.ValidString(nameOfIngredient))
+                {
+                    Console.Write($"Enter a valid name for the ingredient {i + 1}: ");
+                    nameOfIngredient = Console.ReadLine();
+                }
+
                 Console.Write($"Enter the quantity of ingredient {i + 1}: ");
                 string quantityInput = Console.ReadLine();
-                int quantityOfIngredient;
 
-                while (!int.TryParse(quantityInput, out quantityOfIngredient))
+                while (!HelperMethods.ValidInteger(quantityInput))
                 {
-                    Console.Write($"Please enter a valid number for ingredient {i + 1}: ");
+                    Console.Write($"Please enter a valid quantity for ingredient {i + 1}: ");
                     quantityInput = Console.ReadLine();
                 }
 
+                int.TryParse(quantityInput, out int quantityOfIngredient);
+
                 Console.Write($"Enter the unit measurement for ingredient {i + 1}: ");
                 string measurement = Console.ReadLine();
+                while (!HelperMethods.ValidString(measurement))
+                {
+                    Console.Write($"Enter a valid unit measurment for the ingredient {i + 1}: ");
+                    measurement = Console.ReadLine();
+                }
 
                 Console.Write($"Enter the description for ingredient {i + 1}: ");
                 string description = Console.ReadLine();
 
-                string ingredient = $"Name: {nameOfIngredient}\n" +
-                                    $"quantity: {quantityOfIngredient}\n" +
-                                    $"measurement: {measurement}\n" +
-                                    $"description: {description}\n";
+                while (!HelperMethods.ValidString(description))
+                {
+                    Console.Write($"Enter the a valid description for ingredient {i + 1}: ");
+                    description = Console.ReadLine();
+                }
 
-                ingredientsList.Add(ingredient);
-                originalIngredientsList.Add(ingredient);
-            }
+                Ingredient ingredient = new Ingredient(nameOfIngredient, quantityOfIngredient, measurement, description);
+                recipe.AddIngredient(ingredient);
+            }    
 
-            InputSteps(stepsList);
+            InputSteps(recipe);
         }
 
-        static void InputSteps(List<string> stepsList)
+        static void InputSteps(Recipe recipe)
         {
             Console.Write("Please enter the number of steps needed to make the recipe: ");
             string steps = Console.ReadLine();
@@ -99,7 +105,7 @@ namespace PROGPOE
             {
                 Console.Write($"Enter the description for step {i + 1}: ");
                 string stepDescription = Console.ReadLine();
-                stepsList.Add($"Step {i + 1}: {stepDescription}");
+                recipe.AddStep(stepDescription);
             }
 
             Console.WriteLine();
@@ -107,3 +113,4 @@ namespace PROGPOE
         }
     }
 }
+
