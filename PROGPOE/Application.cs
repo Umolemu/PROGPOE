@@ -15,14 +15,14 @@ namespace PROGPOE
         //Main running method that controlls all of the applications functions
         public static void DisplayMenu()
         {
-            Console.WriteLine("" +
-                "1. Input recipe " +
-                "\n2. View recipe " +
-                "\n3. Scale quantities " +
-                "\n4. Reset quantities " +
-                "\n5. Clear all data " +
-                "\n6. Select recipe " +
-                "\n7. Exit");
+            Console.WriteLine(
+                "1. Input a new recipe" +
+                "\n2. View all recipes" +
+                "\n3. Scale quantities" +
+                "\n4. Reset quantities" +
+                "\n5. Clear all data" +
+                "\n6. Exit"
+                );
 
             Console.Write("Enter your choice: ");
             string choice = Console.ReadLine();
@@ -39,55 +39,31 @@ namespace PROGPOE
             {
                 case 1:
                     //Allows the user to enter ingredients
+                    //Done
                     InputItems.Ingredients(recipes);
                     break;
                 case 2:
                     //Displays the recipe to to console 
-                    //HelperMethods.ViewRecipe(recipes);
-                    foreach (Recipe recipe in recipes)
-                    {
-                        Console.WriteLine("\nRecipe Name: " + recipe.GetName());
-
-                        Console.WriteLine("Ingredients List:");
-                        List<Ingredient> ingredients = recipe.GetIngredients();
-                        if (ingredients.Count == 0)
-                        {
-                            Console.WriteLine("No ingredients added.");
-                        }
-                        else
-                        {
-                            foreach (Ingredient ingredient in ingredients)
-                            {
-                                Console.WriteLine($"- {ingredient.Name}: \n{ingredient.Quantity} \n{ingredient.Measurement} - \n{ingredient.Description}\n");
-                            }
-                        }
-
-                        Console.WriteLine("\nSteps:");
-                        foreach (var step in recipe.GetSteps())
-                        {
-                            Console.WriteLine(step);
-                        }
-
-                        Console.WriteLine();
-                    }
+                    //Done
+                    HelperMethods.ViewRecipe(recipes);
                     break;
                 case 3:
+                    //Todo
                     //Allows use to sacle quantities by their own factor 
                     EditQuantities.ScaleQuantities(recipes);
                     break;
                 case 4:
+                    //Todo
                     //Resets the quantities to the original value only if they have been edited
                     EditQuantities.ResetQuantities(recipes);
                     break;
                 case 5:
+                    //Todo
                     //Clears the ingredients list
                     HelperMethods.Clear(recipes);
                     break;
                 case 6:
-                    //Allows user to change the current recipe 
-                    HelperMethods.SelectRecipe(recipes);
-                    break;
-                case 7:
+                    //Done
                     //Stops the application
                     HelperMethods.Exit();
                     break;

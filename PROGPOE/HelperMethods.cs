@@ -1,21 +1,22 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 namespace PROGPOE
 {
     public class HelperMethods
     {
         public static void ViewRecipe(List<Recipe> recipes)
         {
-            if (recipes.Count == 0)
+            if (recipes.Count == 0) 
             {
-                Console.WriteLine("\nIngredient list is empty\n");
+                Console.WriteLine("\nRecipe list is empty\n");
                 Application.DisplayMenu();
                 return;
             }
 
             foreach (Recipe recipe in recipes)
             {
-                Console.WriteLine("\nRecipe Name: " + recipe.GetName());
+                Console.WriteLine($"\nRecipe Name: {recipe.GetName()} (Calories: {CalculateTotalCalories(recipe)})");
+
+                Console.WriteLine();
 
                 Console.WriteLine("Ingredients List:");
                 List<Ingredient> ingredients = recipe.GetIngredients();
@@ -27,20 +28,40 @@ namespace PROGPOE
                 {
                     foreach (Ingredient ingredient in ingredients)
                     {
-                        Console.WriteLine($"- {ingredient.Name}: \n{ingredient.Quantity} \n{ingredient.Measurement} - \n{ingredient.Description}\n");
+                        Console.WriteLine(
+                            $"\n- Name: {ingredient.Name}" +
+                            $"\n- Quantity: {ingredient.Quantity}" +
+                            $"\n- Measurment: {ingredient.Measurement}" +
+                            $"\n- Description: {ingredient.Description}" +
+                            $"\n- Calories: {ingredient.Calories}" +
+                            $"\n- Food Group: {ingredient.Group}"
+                       );
                     }
                 }
 
                 Console.WriteLine("\nSteps:");
+
+                int steps = 1;
                 foreach (var step in recipe.GetSteps())
                 {
-                    Console.WriteLine(step);
+                    Console.WriteLine($"- Step {steps}: {step}");
+                    steps++;
                 }
 
                 Console.WriteLine();
             }
 
             Application.DisplayMenu();
+        }
+
+        private static int CalculateTotalCalories(Recipe recipe)
+        {
+            int total = 0;
+            foreach(Ingredient ingridient in recipe.GetIngredients())
+            {
+                total += ingridient.Calories;
+            }
+            return total;
         }
 
 
@@ -75,10 +96,57 @@ namespace PROGPOE
             return true;
         }
 
+        public static bool ValidFloat(string input)
+        {
+            float number;
+
+            if (!float.TryParse(input, out number))
+            {
+                return false;
+            }
+            
+            if (number < 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
 
         public static void Clear(List<Recipe> recipes)
         {
-            //Remove current recipe
+            Console.WriteLine("Are you sure you want to clear all data");
+            Console.WriteLine(
+                "\n1.Yes" +
+                "\n2.No"
+                );
+            Console.Write("Select an option: ");
+            string choise = Console.ReadLine();
+
+            while (!ValidInteger(choise))
+            {
+                Console.Write($"Please enter a valid option: ");
+                choise = Console.ReadLine();
+            }
+
+            int.TryParse(choise, out int vallidChoise);
+            
+            Console.WriteLine();
+
+            if(vallidChoise == 1)
+            {
+                recipes.Clear();
+                
+                Console.WriteLine("All data removed");
+                Console.WriteLine();
+
+                Application.DisplayMenu();
+            } 
+            if(vallidChoise == 2)
+            {
+                Application.DisplayMenu();
+            }
         }
 
         public static void Exit()

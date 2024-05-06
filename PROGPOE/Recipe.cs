@@ -27,8 +27,7 @@ public class Recipe
     {
         stepsList.Add(step);
     }
-
-    // Method to retrieve the steps of the recipe
+       
     public List<string> GetSteps()
     {
         return stepsList;
