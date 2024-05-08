@@ -54,9 +54,9 @@ namespace PROGPOE
             Application.DisplayMenu();
         }
 
-        private static int CalculateTotalCalories(Recipe recipe)
+        public static float CalculateTotalCalories(Recipe recipe)
         {
-            int total = 0;
+            float total = 0;
             foreach(Ingredient ingridient in recipe.GetIngredients())
             {
                 total += ingridient.Calories;

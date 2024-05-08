@@ -57,6 +57,8 @@ namespace PROGPOE
                 }
 
                 float.TryParse(quantityInput, out float quantityOfIngredient);
+                float originalQuantity = quantityOfIngredient;
+
 
                 Console.Write($"Enter the unit measurement for ingredient {i + 1}: ");
                 string measurement = Console.ReadLine();
@@ -78,13 +80,13 @@ namespace PROGPOE
                 Console.Write($"Enter the number of calories for ingredient {i + 1}: ");
                 string caloriesStr = Console.ReadLine();
 
-                while (!HelperMethods.ValidInteger(caloriesStr))
+                while (!HelperMethods.ValidFloat(caloriesStr))
                 {
                     Console.Write($"Please enter a valid calorie count for ingredient {i + 1}: ");
                     caloriesStr = Console.ReadLine();
                 }
 
-                int calories = int.Parse(caloriesStr);
+                float calories = int.Parse(caloriesStr);
 
                 while (calories > 300)
                 {
@@ -125,7 +127,7 @@ namespace PROGPOE
                     Console.WriteLine();
                     Console.WriteLine($"Enter the food group for ingredient {nameOfIngredient}: ");
                     Console.WriteLine(
-                        "\n1. Starch" +
+                        "1. Starch" +
                         "\n2. Vegetables and fruits" +
                         "\n3. Dry beans, peas, lentils or soya" +
                         "\n4. Chicken, fish, meat or egg" +
@@ -171,7 +173,7 @@ namespace PROGPOE
                     } 
 
 
-                Ingredient ingredient = new Ingredient(nameOfIngredient, quantityOfIngredient, measurement, description, calories, groupStr);
+                Ingredient ingredient = new Ingredient(nameOfIngredient, quantityOfIngredient, measurement, description, calories, groupStr, originalQuantity);
                 recipe.AddIngredient(ingredient);
             }    
 
