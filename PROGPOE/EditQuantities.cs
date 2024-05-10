@@ -52,7 +52,7 @@ namespace PROGPOE
 
             while (!HelperMethods.ValidInteger(choiseStr) || int.Parse(choiseStr) > recipes.Count || int.Parse(choiseStr) < 1)
             {
-                Console.WriteLine($"Enter a valid number between 1 and {recipes.Count}: ");
+                Console.Write($"Enter a valid number between 1 and {recipes.Count}: ");
                 choiseStr = Console.ReadLine();
             }
 

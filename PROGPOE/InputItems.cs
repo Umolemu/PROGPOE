@@ -54,9 +54,9 @@ namespace PROGPOE
                 Console.Write($"Enter the quantity of ingredient {i + 1}: ");
                 string quantityInput = Console.ReadLine();
 
-                while (!HelperMethods.ValidFloat(quantityInput))
+                while (!HelperMethods.ValidFloat(quantityInput) || float.Parse(quantityInput) > 50)
                 {
-                    Console.Write($"Please enter a valid quantity for ingredient {i + 1}: ");
+                    Console.Write($"Please enter a valid quantity for ingredient {i + 1} between 1 and 50: ");
                     quantityInput = Console.ReadLine();
                 }
 
@@ -75,13 +75,13 @@ namespace PROGPOE
                 Console.Write($"Enter the number of calories for ingredient {i + 1}: ");
                 string caloriesStr = Console.ReadLine();
 
-                while (!HelperMethods.ValidFloat(caloriesStr))
+                while (!HelperMethods.ValidFloat(caloriesStr) || float.Parse(caloriesStr) > 2000)
                 {
-                    Console.Write($"Please enter a valid calorie count for ingredient {i + 1}: ");
+                    Console.Write($"Please enter a valid calorie count for ingredient {i + 1} that is between 1 and 2000: ");
                     caloriesStr = Console.ReadLine();
                 }
 
-                float calories = int.Parse(caloriesStr);
+                float calories = float.Parse(caloriesStr);
 
                 Console.WriteLine();
                     Console.WriteLine($"Enter the food group for ingredient {nameOfIngredient}: ");
@@ -93,7 +93,7 @@ namespace PROGPOE
                         "\n5. Milk or dairy products" +
                         "\n6. Fats or oil" +
                         "\n7. Water");
-                    Console.Write("Enter a choise: ");
+                    Console.Write("Enter a choice: ");
                     
                     string group = Console.ReadLine();
                     string groupStr = "";
@@ -101,7 +101,7 @@ namespace PROGPOE
 
                     while (!HelperMethods.ValidInteger(group) || int.Parse(group) > 7 || int.Parse(group) < 1 )
                     {
-                        Console.Write($"Enter the a valid number between 1 and 7");
+                        Console.Write($"Enter the a valid number between 1 and 7: ");
                         group = Console.ReadLine();
                     }
                     
@@ -140,12 +140,13 @@ namespace PROGPOE
                 
                 
                 while (HelperMethods.CalculateTotalCalories(recipe) > 300)
-                {                 
-                    if(notify(recipe) == "change")
+                {
+                    string outcome = notify(recipe);
+                    if (outcome == "change")
                 {
                     continue;
                 }
-                    else if(notify(recipe) == "nochange")
+                    else if(outcome == "nochange")
                 {
                     break;
                 }
@@ -159,6 +160,8 @@ namespace PROGPOE
         {
 
             string outcome = "";
+            
+            Console.WriteLine();
             Console.WriteLine("Calories are greater than 300 Would you like to change it?");
             Console.WriteLine(
                     "\n1.Yes" +
@@ -230,7 +233,7 @@ namespace PROGPOE
                             caloriesStr = Console.ReadLine();
                         }
 
-                        float calories = int.Parse(caloriesStr);
+                        float calories = float.Parse(caloriesStr);
                         ingredient.Calories = calories;
 
                         outcome = "changed";
@@ -241,7 +244,7 @@ namespace PROGPOE
             }
             else if (choise == 2)
             {
-                outcome = "nochange";
+                return "nochange";
             }
             return outcome;
         }
@@ -258,7 +261,7 @@ namespace PROGPOE
                 //Check if the integer is valid 
                 while (!int.TryParse(steps, out numberOfSteps) || numberOfSteps > Application.GetSteps() || numberOfSteps < 1)
                 {
-                    Console.WriteLine($"Enter a valid number between 1 and {Application.GetSteps()}: ");
+                    Console.Write($"Enter a valid number between 1 and {Application.GetSteps()}: ");
                     steps = Console.ReadLine();
                 }
 
@@ -266,6 +269,13 @@ namespace PROGPOE
                 {
                     Console.Write($"Enter the description for step {i + 1}: ");
                     string stepDescription = Console.ReadLine();
+
+                    while(!HelperMethods.ValidString(stepDescription))
+                {
+                    Console.Write($"Enter a valid description for step {i + 1}: ");
+                    stepDescription = Console.ReadLine();
+                }
+
                     recipe.AddStep(stepDescription);
                 }
 
