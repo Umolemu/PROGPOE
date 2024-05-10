@@ -32,7 +32,6 @@ namespace PROGPOE
                             $"\n- Name: {ingredient.Name}" +
                             $"\n- Quantity: {ingredient.Quantity}" +
                             $"\n- Measurment: {ingredient.Measurement}" +
-                            $"\n- Description: {ingredient.Description}" +
                             $"\n- Calories: {ingredient.Calories}" +
                             $"\n- Food Group: {ingredient.Group}"
                        );

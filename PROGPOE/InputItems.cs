@@ -4,6 +4,9 @@ namespace PROGPOE
 {
     public class InputItems
     {
+
+        public delegate string NotifyCaloriesExceedThreshold(Recipe ingredientName);
+
         public static void Ingredients(List<Recipe> recipes)
         {
             Console.WriteLine();
@@ -30,12 +33,13 @@ namespace PROGPOE
 
             recipes.Add(newRecipe);
 
-            InputIngredientDetails(numberOfIngredients, newRecipe);
+            InputIngredientDetails(numberOfIngredients, newRecipe, NotifyCaloriesExceed);
 
             }
 
-        static void InputIngredientDetails(int numberOfIngredients, Recipe recipe)
+        static void InputIngredientDetails(int numberOfIngredients, Recipe recipe, NotifyCaloriesExceedThreshold notify)
         {
+
             for (int i = 0; i < numberOfIngredients; i++)
             {
                 Console.Write($"Enter the name of ingredient {i + 1}: ");
@@ -68,15 +72,6 @@ namespace PROGPOE
                     measurement = Console.ReadLine();
                 }
 
-                Console.Write($"Enter the description for ingredient {i + 1}: ");
-                string description = Console.ReadLine();
-
-                while (!HelperMethods.ValidString(description))
-                {
-                    Console.Write($"Enter the a valid description for ingredient {i + 1}: ");
-                    description = Console.ReadLine();
-                }
-
                 Console.Write($"Enter the number of calories for ingredient {i + 1}: ");
                 string caloriesStr = Console.ReadLine();
 
@@ -88,43 +83,7 @@ namespace PROGPOE
 
                 float calories = int.Parse(caloriesStr);
 
-                while (calories > 300)
-                {
-                    Console.WriteLine("Calories are greater than 300 Would you like to change it?");
-                    Console.WriteLine(
-                            "\n1.Yes" +
-                            "\n2.No"
-                            );
-                    Console.Write("Select an option: ");
-
-                    string choiseStr = Console.ReadLine();
-
-                    while (!HelperMethods.ValidInteger(choiseStr) || int.Parse(choiseStr) > 2 || int.Parse(choiseStr) < 1)
-                    {
-                        Console.Write($"Please enter a valid number between 1 and 2: ");
-                        choiseStr = Console.ReadLine();
-                    }
-
-                    int choise = int.Parse(choiseStr);
-
-
-                    if (choise == 1)
-                    {
-                        Console.Write($"Enter the number new of calories for ingredient {i + 1}: ");
-                        caloriesStr = Console.ReadLine();
-
-                        while (!HelperMethods.ValidInteger(caloriesStr))
-                        {
-                            Console.Write($"Please enter a valid calorie count for ingredient {i + 1}: ");
-                            caloriesStr = Console.ReadLine();
-                        }
-
-                        calories = int.Parse(caloriesStr);
-                        break;
-                    }
-                }    
-                    //Todo
-                    Console.WriteLine();
+                Console.WriteLine();
                     Console.WriteLine($"Enter the food group for ingredient {nameOfIngredient}: ");
                     Console.WriteLine(
                         "1. Starch" +
@@ -171,14 +130,123 @@ namespace PROGPOE
                             groupStr = "Water";
                             break;
                     } 
+                 
 
+                Ingredient ingredient = new Ingredient(nameOfIngredient, quantityOfIngredient, measurement, calories, groupStr, originalQuantity);
 
-                Ingredient ingredient = new Ingredient(nameOfIngredient, quantityOfIngredient, measurement, description, calories, groupStr, originalQuantity);
+                                
                 recipe.AddIngredient(ingredient);
             }    
-
+                
+                
+                while (HelperMethods.CalculateTotalCalories(recipe) > 300)
+                {                 
+                    if(notify(recipe) == "change")
+                {
+                    continue;
+                }
+                    else if(notify(recipe) == "nochange")
+                {
+                    break;
+                }
+                } 
+                
             InputSteps(recipe);
         }
+        
+        //Code path uses a delegate to determine if calories are over 300 
+        static string NotifyCaloriesExceed(Recipe recipe)
+        {
+
+            string outcome = "";
+            Console.WriteLine("Calories are greater than 300 Would you like to change it?");
+            Console.WriteLine(
+                    "\n1.Yes" +
+                    "\n2.No"
+                    );
+            Console.Write("Select an option: ");
+
+            string choiseStr = Console.ReadLine();
+
+            while (!HelperMethods.ValidInteger(choiseStr) || int.Parse(choiseStr) > 2 || int.Parse(choiseStr) < 1)
+            {
+                Console.Write($"Please enter a valid number between 1 and 2: ");
+                choiseStr = Console.ReadLine();
+            }
+
+            int choise = int.Parse(choiseStr);
+
+
+            if (choise == 1)
+            {
+                List<Ingredient> ingredients = recipe.GetIngredients();
+                
+                Console.WriteLine();
+                Console.Write($"Enter the ingredient to change its calories");
+                Console.WriteLine();
+
+                //print list of ingredients
+                int index = 0;
+
+                foreach (Ingredient ingredient in ingredients)
+                {
+                    Console.WriteLine($"\n{++index}. Ingredient Name: {ingredient.Name} (Calories: {ingredient.Calories})");
+
+                    Console.WriteLine(
+                        $"\n- Name: {ingredient.Name}" +
+                        $"\n- Quantity: {ingredient.Quantity}" +
+                        $"\n- Measurment: {ingredient.Measurement}" +
+                        $"\n- Calories: {ingredient.Calories}" +
+                        $"\n- Food Group: {ingredient.Group}"
+                   );
+                }
+
+                Console.WriteLine();
+                Console.Write("Select an option: ");
+                string optionTwoStr = Console.ReadLine();
+
+                while (!HelperMethods.ValidInteger(optionTwoStr) || int.Parse(optionTwoStr) < 1 || int.Parse(optionTwoStr) > ingredients.Count)
+                {
+                    Console.Write($"Please enter a valid number between count for ingredient 1 and {ingredients.Count}: ");
+                    optionTwoStr = Console.ReadLine();
+                }
+
+                int optionTwo = int.Parse(optionTwoStr);
+
+                int countTwo = 0;
+
+                foreach (Ingredient ingredient in ingredients)
+                {
+
+                    if (countTwo == optionTwo - 1)
+                    {
+                        Console.WriteLine();
+                        Console.Write($"Enter the number of calories for {ingredient.Name}: ");
+                        string caloriesStr = Console.ReadLine();
+
+                        while (!HelperMethods.ValidFloat(caloriesStr))
+                        {
+                            Console.Write($"Please enter a valid calorie count for ingredient {ingredient.Name}: ");
+                            caloriesStr = Console.ReadLine();
+                        }
+
+                        float calories = int.Parse(caloriesStr);
+                        ingredient.Calories = calories;
+
+                        outcome = "changed";
+                    }
+                    countTwo++;
+                }
+
+            }
+            else if (choise == 2)
+            {
+                outcome = "nochange";
+            }
+            return outcome;
+        }
+
+
 
         static void InputSteps(Recipe recipe)
             {

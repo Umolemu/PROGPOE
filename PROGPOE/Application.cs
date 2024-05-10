@@ -5,7 +5,6 @@ namespace PROGPOE
 {
     public class Application
     {
-        private static bool HasScaledIngredients = false;
         private static int MaxIngredients = 10;
         private static int MaxSteps = 10;
         
@@ -15,6 +14,10 @@ namespace PROGPOE
         //Main running method that controlls all of the applications functions
         public static void DisplayMenu()
         {
+            //Order the recipes in alphabetical order
+            recipes = recipes.OrderBy(recipe => recipe.GetName()).ToList();
+
+
             Console.WriteLine(
                 "1. Input a new recipe" +
                 "\n2. View all recipes" +
@@ -39,31 +42,25 @@ namespace PROGPOE
             {
                 case 1:
                     //Allows the user to enter ingredients
-                    //Done
                     InputItems.Ingredients(recipes);
                     break;
                 case 2:
                     //Displays the recipe to to console 
-                    //Done
                     HelperMethods.ViewRecipe(recipes);
                     break;
                 case 3:
-                    //Todo
                     //Allows use to sacle quantities by their own factor 
                     EditQuantities.ScaleQuantities(recipes);
                     break;
                 case 4:
-                    //Todo
                     //Resets the quantities to the original value only if they have been edited
                     EditQuantities.ResetQuantities(recipes);
                     break;
                 case 5:
-                    //Todo
                     //Clears the ingredients list
                     HelperMethods.Clear(recipes);
                     break;
                 case 6:
-                    //Done
                     //Stops the application
                     HelperMethods.Exit();
                     break;
@@ -78,16 +75,6 @@ namespace PROGPOE
         {
             return MaxIngredients;
         }
-
-        public static bool GetChangedQuantity()
-        {
-            return HasScaledIngredients;
-        }
-
-        public static void SetChangedQuantity(bool change)
-        {
-            HasScaledIngredients = change;
-        }
-                        
+                       
     }
 }

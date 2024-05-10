@@ -40,7 +40,6 @@ namespace PROGPOE
                             $"\n- Name: {ingredient.Name}" +
                             $"\n- Quantity: {ingredient.Quantity}" +
                             $"\n- Measurment: {ingredient.Measurement}" +
-                            $"\n- Description: {ingredient.Description}" +
                             $"\n- Calories: {ingredient.Calories}" +
                             $"\n- Food Group: {ingredient.Group}"
                        );
@@ -53,7 +52,7 @@ namespace PROGPOE
 
             while (!HelperMethods.ValidInteger(choiseStr) || int.Parse(choiseStr) > recipes.Count || int.Parse(choiseStr) < 1)
             {
-                Console.WriteLine($"Enter a valid number between 1 and {recipes.Count}:");
+                Console.WriteLine($"Enter a valid number between 1 and {recipes.Count}: ");
                 choiseStr = Console.ReadLine();
             }
 
@@ -79,7 +78,6 @@ namespace PROGPOE
                             $"\n- Name: {ingredient.Name}" +
                             $"\n- Quantity: {ingredient.Quantity}" +
                             $"\n- Measurment: {ingredient.Measurement}" +
-                            $"\n- Description: {ingredient.Description}" +
                             $"\n- Calories: {ingredient.Calories}" +
                             $"\n- Food Group: {ingredient.Group}"
                        );
@@ -91,7 +89,7 @@ namespace PROGPOE
 
                     while (!HelperMethods.ValidInteger(optionTwoStr) || int.Parse(optionTwoStr) > ingredients.Count || int.Parse(optionTwoStr) < 1)
                     {
-                        Console.Write($"select a valid option between 1 and {ingredients.Count}");
+                        Console.Write($"select a valid option between 1 and {ingredients.Count}: ");
                         optionTwoStr = Console.ReadLine();
                     }
 
@@ -162,7 +160,6 @@ namespace PROGPOE
                             $"\n- Name: {ingredient.Name}" +
                             $"\n- Quantity: {ingredient.Quantity}" +
                             $"\n- Measurment: {ingredient.Measurement}" +
-                            $"\n- Description: {ingredient.Description}" +
                             $"\n- Calories: {ingredient.Calories}" +
                             $"\n- Food Group: {ingredient.Group}"
                        );
@@ -201,7 +198,6 @@ namespace PROGPOE
                             $"\n- Name: {ingredient.Name}" +
                             $"\n- Quantity: {ingredient.Quantity}" +
                             $"\n- Measurment: {ingredient.Measurement}" +
-                            $"\n- Description: {ingredient.Description}" +
                             $"\n- Calories: {ingredient.Calories}" +
                             $"\n- Food Group: {ingredient.Group}"
                        );
@@ -224,9 +220,9 @@ namespace PROGPOE
                     Console.Write("Scaling factor: ");
 
                     string factorStr = Console.ReadLine();
-                    while(!HelperMethods.ValidFloat(factorStr) || float.Parse(factorStr) > 50 || float.Parse(factorStr) <= 0)
+                    while(!HelperMethods.ValidFloat(factorStr) || float.Parse(factorStr) > 50.00)
                     {
-                        Console.Write("Enter a valid factor greater than 0 and less than 50: ");
+                        Console.Write("Enter a valid scaling factor greater than 0 and less than 50: ");
                         factorStr = Console.ReadLine();
                     }
                     float factor = float.Parse(factorStr);
