@@ -9,7 +9,8 @@ namespace PROGPOE
         public static void ResetQuantities(List<Recipe> recipes)
         {
             Console.WriteLine();
-
+            
+            //Check if recipe list is empty
             if (recipes.Count == 0)
             {
                 Console.WriteLine("\nRecipe list is empty\n");
@@ -20,6 +21,7 @@ namespace PROGPOE
             Console.WriteLine("Select a recipe to reset its quantity");
             int option = 0;
 
+            //Print the list of recipes
             foreach (Recipe recipe in recipes)
             {
                 Console.WriteLine($"\n{++option}. Recipe Name: {recipe.GetName()} (Calories: {HelperMethods.CalculateTotalCalories(recipe)})");
@@ -46,7 +48,7 @@ namespace PROGPOE
                     }
                 }
             }
-
+            //Capture user choice
             Console.Write("Enter your choice: ");
             string choiseStr = Console.ReadLine();
 
@@ -58,9 +60,10 @@ namespace PROGPOE
 
             int choise = int.Parse(choiseStr);
             int count = 0;
-
+            //Itereate through recipies, then through ingredients
             foreach (Recipe recipe in recipes)
             {
+                //if user choice equals position of recipe in the list equal true 
                 if (count == choise - 1)
                 {
                     Console.WriteLine();
@@ -70,6 +73,7 @@ namespace PROGPOE
                     List<Ingredient> ingredients = recipe.GetIngredients();
 
                     int index = 0;
+                    //Print the list of ingredients 
                     foreach (Ingredient ingredient in ingredients)
                     {
                         Console.WriteLine($"\n{++index}. Ingredient Name: {ingredient.Name} (Calories: {ingredient.Calories})");
@@ -97,7 +101,7 @@ namespace PROGPOE
                                       
 
                     int countTwo = 0;
-
+                    //re itterate through the list to match user choice with expected ingredient 
                     foreach (Ingredient ingredient in ingredients)
                     {
 

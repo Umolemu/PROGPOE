@@ -5,13 +5,14 @@ namespace PROGPOE
     {
         public static void ViewRecipe(List<Recipe> recipes)
         {
+            //if list is empty
             if (recipes.Count == 0) 
             {
                 Console.WriteLine("\nRecipe list is empty\n");
                 Application.DisplayMenu();
                 return;
             }
-
+            //Print list of recipies
             foreach (Recipe recipe in recipes)
             {
                 Console.WriteLine($"\nRecipe Name: {recipe.GetName()} (Calories: {CalculateTotalCalories(recipe)})");
@@ -52,7 +53,7 @@ namespace PROGPOE
 
             Application.DisplayMenu();
         }
-
+        //calculate total calories
         public static float CalculateTotalCalories(Recipe recipe)
         {
             float total = 0;
@@ -112,7 +113,7 @@ namespace PROGPOE
             return true;
         }
 
-
+        //Method to clear all data
         public static void Clear(List<Recipe> recipes)
         {
             Console.WriteLine("Are you sure you want to clear all data");
@@ -153,12 +154,5 @@ namespace PROGPOE
             Environment.Exit(0);
         }
 
-        public static void SelectRecipe(List<Recipe> recipes)
-        {
-            foreach (Recipe recipe in recipes)
-            {
-                Console.WriteLine(recipe.GetName());
-            }
-        }
     }
 }

@@ -7,6 +7,9 @@ namespace PROGPOE
         static void Main(string[] args)
         {
             Application.DisplayMenu();
+
+            //Unit test
+            //TestCalorieCalculation.RunTest();
         }
     }
 }
