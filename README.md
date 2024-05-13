@@ -15,6 +15,7 @@ This command line program allows users to manage recipes by inputting ingredient
 **Exit Program:** Users can exit the program.
 
 ## Usage
+- Visual Studio code
 1. Clone the repository to your local machine:
 
 ```git clone https://github.com/your-username/recipe-management.git```
@@ -25,6 +26,9 @@ This command line program allows users to manage recipes by inputting ingredient
 
 3. Compile and run the program:
 
- ```dotnet run```  
+ ```dotnet run```
+ - Visual studio
+1. Double click on the sln file after extracting it
+2. Then run the program 
 
  
