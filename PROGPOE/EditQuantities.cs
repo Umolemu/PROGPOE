@@ -216,8 +216,7 @@ namespace PROGPOE
                     int optionTwo = int.Parse(optionTwoStr);
 
                     Console.WriteLine();
-                    Console.WriteLine("Enter a scaling factor: ");
-                    Console.Write("Scaling factor: ");
+                    Console.Write("Enter a scaling factor: ");
 
                     string factorStr = Console.ReadLine();
                     while(!HelperMethods.ValidFloat(factorStr) || float.Parse(factorStr) > 50.00)

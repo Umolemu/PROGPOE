@@ -1,24 +1,41 @@
 ﻿using System;
+using System.Xml.Linq;
 
 namespace PROGPOE
 {
     public class InputItems
     {
-
+        //Declare the delegate 
         public delegate string NotifyCaloriesExceedThreshold(Recipe ingredientName);
 
         public static void Ingredients(List<Recipe> recipes)
         {
+
             Console.WriteLine();
             Console.Write("Enter the name of the Recipe: ");
             string name = Console.ReadLine();
 
+
             while (!HelperMethods.ValidString(name))
             {
-                Console.Write($"Enter a valid name for the Recipe: ");
+                Console.Write($"Enter a valid name for the Ingredient: ");
                 name = Console.ReadLine();
             }
 
+            foreach (Recipe recipe in recipes)
+            {
+                while (recipe.GetName().ToLower() == name.ToLower())
+                {
+                    Console.WriteLine($"Recipe with the name of {name} exists, Please use another recipe name: ");
+                    name = Console.ReadLine();
+                    while (!HelperMethods.ValidString(name))
+                    {
+                        Console.Write($"Enter a valid name for the Recipe: ");
+                        name = Console.ReadLine();
+                    }
+                }
+            }    
+            
             Recipe newRecipe = new Recipe(name);
 
             Console.Write("Enter the number of ingredients: ");
@@ -33,6 +50,7 @@ namespace PROGPOE
 
             recipes.Add(newRecipe);
 
+            //Pass the delegate to the InputIngredientDetails method
             InputIngredientDetails(numberOfIngredients, newRecipe, NotifyCaloriesExceed);
 
             }
@@ -40,6 +58,7 @@ namespace PROGPOE
         static void InputIngredientDetails(int numberOfIngredients, Recipe recipe, NotifyCaloriesExceedThreshold notify)
         {
 
+            
             for (int i = 0; i < numberOfIngredients; i++)
             {
                 Console.Write($"Enter the name of ingredient {i + 1}: ");
