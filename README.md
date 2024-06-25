@@ -1,5 +1,5 @@
-# Recipe Management Command Line Program
-This command line program allows users to manage recipes by inputting ingredients and steps. Users can perform various operations such as inputting recipes, viewing recipes, scaling quantities, resetting quantities, clearing data, and exiting the program.
+# Recipe Management WPF Program
+This WPF program allows users to manage recipes by inputting ingredients and steps. Users can perform various operations such as inputting recipes, viewing recipes, scaling quantities, resetting quantities, clearing data, and exiting the program.
 
 ## Features
 **Input Recipe:** Users can input ingredients along with their quantities, measurements, and descriptions.
