@@ -11,6 +11,8 @@ namespace Recipe_Managment
         //These two fields are used to get the count of ingredients and steps which are displaed on main window
         public int IngredientsCount => ingredientsList.Count;
         public int StepsCount => stepsList.Count;
+        //Track selection state
+        public bool IsSelected { get; set; }
 
         public Recipe(string name)
         {
