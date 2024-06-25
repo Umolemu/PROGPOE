@@ -1,27 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using LiveCharts;
+using LiveCharts.Wpf;
 
 namespace Recipe_Managment
 {
-    /// <summary>
-    /// Interaction logic for StatisticsWindow.xaml
-    /// </summary>
     public partial class StatisticsWindow : Window
     {
-        public StatisticsWindow()
+        public StatisticsWindow(List<Recipe> selectedRecipes)
         {
             InitializeComponent();
+
+            // Process the selected recipes to gather food group data
+            var foodGroupData = selectedRecipes
+                .SelectMany(r => r.GetIngredients())
+                .GroupBy(i => i.Group)
+                .Select(g => new { Group = g.Key, Count = g.Count() })
+                .ToList();
+
+            // Prepare the data for the pie chart
+            SeriesCollection series = new SeriesCollection();
+            foreach (var group in foodGroupData)
+            {
+                series.Add(new PieSeries
+                {
+                    Title = group.Group,
+                    Values = new ChartValues<int> { group.Count },
+                    DataLabels = true
+                });
+            }
+
+            // Assign the data to the pie chart
+            pieChart.Series = series;
         }
     }
 }

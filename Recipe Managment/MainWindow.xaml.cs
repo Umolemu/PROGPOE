@@ -64,6 +64,22 @@ namespace Recipe_Managment
             }
         }
 
+        private void BtnStatistics_Click(object sender, RoutedEventArgs e)
+        {
+            // Get the selected recipes
+            var selectedRecipes = (RecipesDataGrid.ItemsSource as List<Recipe>).Where(r => r.IsSelected).ToList();
+
+            if (selectedRecipes.Count == 0)
+            {
+                MessageBox.Show("Please select at least one recipe to view statistics.", "No Recipes Selected", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Open the Statistics window
+            StatisticsWindow statisticsWindow = new StatisticsWindow(selectedRecipes);
+            statisticsWindow.Show();
+        }
+
         public void RefreshDataGrid()
         {
             // Sort recipes by name before refreshing the DataGrid
