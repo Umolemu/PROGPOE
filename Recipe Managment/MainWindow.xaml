@@ -10,9 +10,12 @@
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Button Content="Add Recipe" Click="AddRecipeButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" Width="215"/>
+        <Button Content="Statistics" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" Width="215" Margin="239,0,0,0"/>
+       
 
         <DataGrid x:Name="RecipesDataGrid" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,70,10,10" ItemsSource="{Binding Recipes}">
             <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="Select" Binding="{Binding IsSelected}" Width="*" />
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
                 <DataGridTextColumn Header="Number of Ingredients" Binding="{Binding IngredientsCount}" Width="*" />
                 <DataGridTextColumn Header="Number of Steps" Binding="{Binding StepsCount}" Width="*" />
@@ -30,5 +33,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+
     </Grid>
 </Window>
