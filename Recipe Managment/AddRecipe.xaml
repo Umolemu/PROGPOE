@@ -1,0 +1,47 @@
+﻿<Window x:Class="Recipe_Managment.AddRecipe"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Recipe_Managment"
+        mc:Ignorable="d"
+        Title="Add Recipe" Height="500" Width="1000"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="50 20">
+        <Grid.RowDefinitions>
+            <!-- Define rows -->
+            <RowDefinition Height="Auto"/>
+            <!-- Recipe Name row -->
+            <RowDefinition Height="Auto"/>
+            <!-- Number of Ingredients row -->
+            <RowDefinition Height="*"/>
+            <!-- ScrollViewer row -->
+            <RowDefinition Height="Auto"/>
+            <!-- Button row -->
+        </Grid.RowDefinitions>
+
+        <!-- Recipe Name -->
+        <TextBox x:Name="txtRecipName" Grid.Row="0" Margin="10,20,20,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="200"/>
+        <Label Content="Recipe Name:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,20,10,0" Grid.Row="0"/>
+
+        <!-- Number of Ingredients -->
+        <TextBox x:Name="txtNumberOfIngredients" Grid.Row="1" Margin="10,20,20,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="200"/>
+        <Label Content="Number of Ingredients:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,20,10,0" Grid.Row="1"/>
+
+        <!-- ScrollViewer for Ingredients and Steps -->
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Margin="0 15 0 0" Height="Auto">
+            <StackPanel>
+                <StackPanel x:Name="stackPanelIngredients"/>
+                <StackPanel x:Name="stackPanelSteps" Margin="0 10 0 0"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+            <Button Content="Cancel" Margin="0 0 10 0" Width="100" Click="CancelButton_Click" Background="#FFF87171" BorderBrush="Black" Foreground="White" FontSize="15"/>
+            <Button x:Name="submitButton" Content="Submit" Width="100" Click="SubmitButton_Click" Background="#FF4ADE80" Foreground="White" BorderBrush="Black" FontSize="15"/>
+        </StackPanel>
+    </Grid>
+</Window>
