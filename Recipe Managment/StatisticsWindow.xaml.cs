@@ -34,5 +34,6 @@ namespace Recipe_Managment
             // Assign the data to the pie chart
             pieChart.Series = series;
         }
+
     }
 }
