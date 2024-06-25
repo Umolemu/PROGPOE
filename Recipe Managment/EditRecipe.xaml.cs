@@ -250,6 +250,11 @@ namespace Recipe_Managment
                     MessageBox.Show($"Please enter step {index}.", "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
+                if (Regex.IsMatch(txtStep.Text.Trim(), @"^\d+$"))
+                {
+                    MessageBox.Show($"Step {index} cannot be just a number.", "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
             }
 
             // Apply changes to the recipe
