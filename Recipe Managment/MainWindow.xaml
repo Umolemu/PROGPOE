@@ -10,7 +10,7 @@
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Button Content="Add Recipe" Click="AddRecipeButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" Width="215"/>
-        <Button Content="Statistics" Click="BtnStatistics_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" Width="215" Margin="239,0,0,0"/>
+        <Button Content="Statistics" x:Name="btnStatistics" Click="BtnStatistics_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" Width="215" Margin="239,0,0,0"/>
 
         <DataGrid x:Name="RecipesDataGrid" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,70,10,10" ItemsSource="{Binding Recipes}">
             <DataGrid.Columns>

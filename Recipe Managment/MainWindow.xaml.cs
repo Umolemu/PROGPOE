@@ -12,6 +12,7 @@ namespace Recipe_Managment
             InitializeComponent();
             //Main recipe list
             Recipes = new List<Recipe>();
+            
         }
 
         private void AddRecipeButton_Click(object sender, RoutedEventArgs e)
@@ -66,6 +67,12 @@ namespace Recipe_Managment
 
         private void BtnStatistics_Click(object sender, RoutedEventArgs e)
         {
+            if (Recipes.Count == 0)
+            {
+                MessageBox.Show("No recipes to view statistics.", "No Recipes", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             // Get the selected recipes
             var selectedRecipes = (RecipesDataGrid.ItemsSource as List<Recipe>).Where(r => r.IsSelected).ToList();
 
